@@ -3,13 +3,18 @@
 \alias{PBD}
 \docType{package}
 \title{ Protracted birth-death model of diversification }
-\description{ This package computes the (maximum) likelihood of the protracted speciation model for a given set of branching times }
+\description{ This package computes the (maximum) likelihood of the protracted speciation model for a given set of branching times
+This package is a likelihood-based statistical package to estimate parameters
+under diversity-dependent diversification models.\cr \cr
+   New in version 0.9\cr
+   - Bug fix for phylogeny with stem age\cr
+}
 \details{
 \tabular{ll}{
 Package: \tab PBD\cr
 Type: \tab Package\cr
-Version: \tab 0.8\cr
-Date: \tab 2014-4-1\cr
+Version: \tab 0.9\cr
+Date: \tab 2014-4-4\cr
 License: \tab GPL-2\cr
 }
 pbd_loglik computes the likelihood of the protracted birth-death model of

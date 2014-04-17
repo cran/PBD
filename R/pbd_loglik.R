@@ -36,16 +36,20 @@ m = missnumspec
 
 probs = c(1,1,0,0)
 y = ode(probs,c(0,brts),pbd_loglik_rhs,c(pars1),rtol = reltol,atol = abstol,method = methode)
-loglik = (btorph == 0) * lgamma(S) + sum(log(b) + log(y[2:S,2]) + log(1 - y[2:S,3])) - log(b[1]) + (soc == 2) * (log(y[S,2]) + log(1 - y[S,3])) - soc * (cond > 0) * (log(1 - y[S,3])) - (cond == 2) * ((soc == 2) * log(S + m - 1) + soc * log(y[S,2]) + (S + m - soc) * log(1 - y[S,2]))
+#loglik = (btorph == 0) * lgamma(S) + sum(log(b) + log(y[2:S,2]) + log(1 - y[2:S,3])) - log(b[1]) + (soc == 2) * (log(y[S,2]) + log(1 - y[S,3])) - soc * (cond > 0) * (log(1 - y[S,3])) - (cond == 2) * ((soc == 2) * log(S + m - 1) + soc * log(y[S,2]) + (S + m - soc) * log(1 - y[S,2]))
+
+loglik = (btorph == 0) * lgamma(S) + sum(log(b) + log(y[2:(length(brts) + 1),2]) + log(1 - y[2:(length(brts) + 1),3])) - log(b[length(b)]) + (soc == 2) * (log(y[(length(brts) + 1),2]) + log(1 - y[(length(brts) + 1),3])) - soc * (cond > 0) * (log(1 - y[(length(brts) + 1),3])) - (cond == 2) * ((soc == 2) * log(S + m - 1) + soc * log(y[(length(brts) + 1),2]) + (S + m - soc) * log(1 - y[(length(brts) + 1),2]))
+#loglik = (btorph == 0) * lgamma(S) + sum(log(b) + log(y[2:(length(brts) + 1),2]) + log(1 - y[2:(length(brts) + 1),3])) - log(b[length(b)]) + (soc == 2) * (log(y[length(brts) + 1,2]) + log(1 - y[length(brts) + 1,3])) + (cond > 0) * soc * (-log(y[length(brts) + 1,2]) - log(1 - y[length(brts) + 1,3]) + log(y[(length(brts) + 1),2])) - (cond == 2) * ((soc == 2) * log(S + m - 1) + soc * log(y[(length(brts) + 1),2]) + (S + m - soc) * log(1 - y[(length(brts) + 1),2]))
+
 if(m > 0)
 {
    if(soc == 1)
    {
-      y2 = as.numeric(c(1-y[2:S,2]))
+      y2 = as.numeric(c(1-y[2:(length(brts) + 1),2]))
    }
    if(soc == 2)
    {
-      y2 = as.numeric(c(1-y[2:S,2],1-y[S,2]))
+      y2 = as.numeric(c(1-y[2:(length(brts) + 1),2],1-y[length(brts) + 1,2]))
    }
    x = rep(0,m + 1)
    x[1] = 1
