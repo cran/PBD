@@ -9,7 +9,7 @@ pbd_loglik(
     pars1,
     pars1f = c(function(t,pars) {pars[1]},function(t,pars) {pars[2]},
 function(t,pars) {pars[3]}, function(t,pars) {pars[4]}),
-    pars2 = c(1,1,2,1,"lsoda"),
+    pars2 = c(1,1,2,1,"lsoda",0,0),
     brts,
     missnumspec = 0
 )}
@@ -33,6 +33,8 @@ When rates depend on time this time dependence should be specified in pars1f and
     \code{pars2[3]} {sets whether the first element of the branching times is the stem (1) or the crown (2) age \cr \cr}
     \code{pars2[4]} {sets whether the parameters and likelihood should be shown on screen (1) or not (0) \cr \cr}
     \code{pars2[5]} {sets which method should be used in the ode-solver. Default is 'lsoda'. See package deSolve for details. \cr \cr}
+    \code{pars2[6]}{Sets the lower bound of the number of species on which conditioning should be done when cond = 2. Set this to 0 when conditioning should be done on precisely the number of species (default)\cr \cr}
+    \code{pars2[7]}{Sets the upper bound of the number of species on which conditioning should be done when cond = 2. Set this to 0 when conditioning should be done on precisely the number of species (default)\cr \cr}  
 }
   \item{brts}{A set of branching times of a phylogeny, all positive }
   \item{missnumspec}{The number of species that are in the clade but missing in the phylogeny }

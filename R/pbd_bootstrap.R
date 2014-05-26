@@ -1,4 +1,4 @@
-pbd_bootstrap = function(brts, initparsopt = c(0.2,0.1,1), idparsopt = 1:length(initparsopt), idparsfix = NULL, parsfix = NULL, exteq = (length(initparsopt) < 4), parsfunc = c(function(t,pars) {pars[1]},function(t,pars) {pars[2]},function(t,pars) {pars[3]},function(t,pars) {pars[4]}), missnumspec = 0, cond = 1, btorph = 0, soc = 2, plotltt = 1, methode = "lsoda", tol = c(1E-4, 1E-4, 1E-6), maxiter = 1000 * round((1.25)^length(idparsopt)), endmc = 100, seed = 42)
+pbd_bootstrap = function(brts, initparsopt = c(0.2,0.1,1), idparsopt = 1:length(initparsopt), idparsfix = NULL, parsfix = NULL, exteq = (length(initparsopt) < 4), parsfunc = c(function(t,pars) {pars[1]},function(t,pars) {pars[2]},function(t,pars) {pars[3]},function(t,pars) {pars[4]}), missnumspec = 0, cond = 1, btorph = 0, soc = 2, plotltt = 1, methode = "lsoda", n_low = 0, n_up = 0, tol = c(1E-4, 1E-4, 1E-6), maxiter = 1000 * round((1.25)^length(idparsopt)), endmc = 100, seed = 42)
 {
 # brts = branching times (positive, from present to past)
 # - max(brts) = crown age
@@ -32,7 +32,7 @@ if(plotltt == 1)
 {
     plot(c(-brts,0),c(soc:(length(brts)+soc-1),length(brts)+soc-1),log = 'y',type = 's',xlab = 'Time',ylab = 'Number of lineages')
 }
-empout = pbd_ML(brts,initparsopt,idparsopt,idparsfix,parsfix,exteq,parsfunc,missnumspec,cond,btorph,soc,methode,tol,maxiter)
+empout = pbd_ML(brts,initparsopt,idparsopt,idparsfix,parsfix,exteq,parsfunc,missnumspec,cond,btorph,soc,methode,n_low,n_up,tol,maxiter)
 MLpars = as.numeric(c(empout[1:4]))
 exp_durspec = pbd_durspec_mean(c(MLpars[1],MLpars[3],MLpars[4]))
 median_durspec = pbd_durspec_quantile(c(MLpars[1],MLpars[3],MLpars[4]),0.5)
@@ -46,7 +46,7 @@ for(i in 1:endmc)
    flush.console()
    simbrts = pbd_sim_cpp(pars = MLpars, age = max(abs(brts)), soc = soc, plotltt = plotltt, methode = methode)
    trees[[i]] = brts2phylo(simbrts)
-   simML = pbd_ML(simbrts,initparsopt = MLpars[1:(4-exteq)],idparsopt,idparsfix,parsfix,exteq,parsfunc,missnumspec = 0,cond,btorph,soc,methode,tol,maxiter)
+   simML = pbd_ML(simbrts,initparsopt = MLpars[1:(4-exteq)],idparsopt,idparsfix,parsfix,exteq,parsfunc,missnumspec = 0,cond,btorph,soc,methode,n_low,n_up,tol,maxiter)
    simMLpars = as.numeric(unlist(simML[1:4]))
    exp_durspec = pbd_durspec_mean(c(simMLpars[1],simMLpars[3],simMLpars[4]))
    median_durspec = pbd_durspec_quantile(c(simMLpars[1],simMLpars[3],simMLpars[4]),0.5)

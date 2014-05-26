@@ -1,9 +1,13 @@
-pbd_sim = function(pars,age)
+pbd_sim = function(pars,age,soc = 2)
 {
 
 sample2 = function(x,size,replace = FALSE,prob = NULL)
 {
-    if(length(x) == 1){ x = c(x,x) }
+    if(length(x) == 1)
+    { 
+        x = c(x,x)
+        prob = c(prob,prob)
+    }
     return(sample(x,size,replace,prob))
 }
 
@@ -37,16 +41,25 @@ checkgood = function(L,si,sg,id1)
     invisible(found)
 }
 
-detphy = function(L,sall,age)
+#detphy = function(L,sall,age)
+detphy = function(L,age)
 {
-   linlist = cbind(L[sall,],paste("S",paste(L[sall,6],L[sall,6],L[sall,1],sep = "_"),sep = ""),age)
+   L = L[order(L[,1]),1:6]
+   sall = which(L[,5] == -1)
+   linlist = matrix(0,nrow = 1,ncol = 8)
+   if(length(sall) == 1)
+   {
+      linlist[1,] = c(L[sall,],paste("S",paste(L[sall,6],L[sall,6],L[sall,1],sep = "_"),sep = ""),age)
+   } else {
+      linlist = cbind(L[sall,],paste("S",paste(L[sall,6],L[sall,6],L[sall,1],sep = "_"),sep = ""),age)
+   }
    done = 0
    while(done == 0)
    {
-      j = which.max(linlist[,3])
+      j = which.max(linlist[,3])      
       daughter = linlist[j,1]
       parent = linlist[j,2]
-      parentj = which(parent == linlist[,1])
+      parentj = which(linlist[,1] == parent)
       parentinlist = length(parentj)
       if(parentinlist == 1)
       {
@@ -56,13 +69,51 @@ detphy = function(L,sall,age)
           linlist[parentj,8] = linlist[j,3]
           linlist = linlist[-j,]
       } else {
-          linlist[j,1:5] = L[as.numeric(parent),1:5]
+          if(as.numeric(parent) != 0)
+          {
+              linlist[j,1:5] = L[which(L[,1] == as.numeric(parent)),1:5]
+          }
       }
-      if(is.null(nrow(linlist))) { done = 1 }
+      #print(linlist)
+      if(is.null(nrow(linlist)))
+      { 
+          done = 1
+          linlist[7] = paste(linlist[7],":",abs(as.numeric(linlist[3])),";",sep = "")
+      } else {
+          if(nrow(linlist) == 1)
+          { 
+              done = 1
+              linlist[7] = paste("(",linlist[7],":",age,");",sep = "")
+          }
+      }
    }
-   linlist[7] = paste("(",linlist[7],":100",",dummytip:200)",sep = "")
-   linlist[7] = paste(linlist[7],";",sep = "")
+   #linlist[7] = paste("(",linlist[7],":",abs(as.numeric(linlist[3])),",dummytip:200);",sep = "")
    return(linlist)
+}
+
+sampletree = function(L)
+{
+   lenL = length(L[,1])
+   randomorder = sample2(1:lenL,replace = F)
+   L2 = L[randomorder,]
+   ss = NULL;
+   for(i in 1:lenL)
+   {
+       if(L2[i,5] == -1)
+       {
+           if(is.element(L2[i,6],ss) == FALSE)
+           {
+              ss = c(ss,L2[i,6])
+              #print(ss)
+           } else {
+              L2[i,5] = age #peudo extinction just before the present
+           }
+       }
+   }
+   L2 = L2[order(L2[,3]),]
+   #print(L2)
+   #flush.console()
+   return(L2)
 }
 
 la1 = pars[1]
@@ -72,7 +123,7 @@ mu1 = pars[4]
 mu2 = pars[5]
 
 i = 1
-while(i <= 2)
+while(i <= soc)
 {
    t = 0
    if(i == 1)
@@ -174,10 +225,19 @@ while(i <= 2)
        }       
    }} 
 }
-L = rbind(L1,L2)
-ff = detphy(L,sort(c(sg1,sg2,si1,si2)),age)
-phy = newick2phylog(ff[7])
-tree = as.phylo(phy)
-tree = drop.tip(tree,"dummytip")
-return(tree)
+L = L1
+if(soc == 2)
+{
+    L = rbind(L1,L2)
+}
+#ff = detphy(L,sort(c(sg1,sg2,si1,si2)),age)
+#L = cbind(L[,3],L[,1:2],L[,4:6])
+#phy = newick2phylog(ff[7])
+#print(L)    
+tree = as.phylo(read.tree(text = detphy(L,age)))
+stree = as.phylo(read.tree(text = detphy(sampletree(L),age)))
+L[,3:5][which(L[,3:5] == -1)] = age + 1
+L[,3:5] = age - L[,3:5]
+out = list(tree,stree,L)
+return(out)
 }

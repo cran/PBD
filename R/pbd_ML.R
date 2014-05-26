@@ -1,4 +1,4 @@
-pbd_ML = function(brts, initparsopt = c(0.2,0.1,1), idparsopt = 1:length(initparsopt), idparsfix = NULL, parsfix = NULL, exteq = 1, parsfunc = c(function(t,pars) {pars[1]},function(t,pars) {pars[2]},function(t,pars) {pars[3]},function(t,pars) {pars[4]}), missnumspec = 0, cond = 1, btorph = 1, soc = 2, methode = "lsoda", tol = c(1E-4, 1E-4, 1E-6), maxiter = 1000 * round((1.25)^length(idparsopt)))
+pbd_ML = function(brts, initparsopt = c(0.2,0.1,1), idparsopt = 1:length(initparsopt), idparsfix = NULL, parsfix = NULL, exteq = 1, parsfunc = c(function(t,pars) {pars[1]},function(t,pars) {pars[2]},function(t,pars) {pars[3]},function(t,pars) {pars[4]}), missnumspec = 0, cond = 1, btorph = 1, soc = 2, methode = "lsoda", n_low = 0, n_up = 0, tol = c(1E-4, 1E-4, 1E-6), maxiter = 1000 * round((1.25)^length(idparsopt)))
 {
 # brts = branching times (positive, from present to past)
 # - max(brts) = crown age
@@ -19,6 +19,8 @@ pbd_ML = function(brts, initparsopt = c(0.2,0.1,1), idparsopt = 1:length(initpar
 # btorph = likelihood of branching times (0) or phylogeny (1), differ by a factor (S - 1)! where S is the number of extant species
 # soc = stem (1) or crown (2) age
 # methode = method of the numerical integration; see package deSolve for details
+# n_low = lower bound on number of species (cond = 2)
+# n_up = upper bound on number of species (cond = 2)
 # tol = tolerance in optimization
 # - reltolx = relative tolerance of parameter values in optimization
 # - reltolf = relative tolerance of function value in optimization
@@ -49,7 +51,7 @@ cat("Extinction rate of incipient species is",fixstr,"the same as for good speci
 trparsopt = initparsopt/(1 + initparsopt)
 trparsfix = parsfix/(1 + parsfix)
 trparsfix[parsfix == Inf] = 1
-pars2 = c(cond,btorph,soc,0,methode,tol,maxiter)
+pars2 = c(cond,btorph,soc,0,methode,n_low,n_up,tol,maxiter)
 flush.console()
 initloglik = pbd_loglik_choosepar(trparsopt = trparsopt,trparsfix = trparsfix,idparsopt = idparsopt,idparsfix = idparsfix,exteq = exteq,parsfunc = parsfunc,pars2 = pars2,brts = brts,missnumspec = missnumspec)
 cat("The likelihood for the initial parameter values is",initloglik,"\n")

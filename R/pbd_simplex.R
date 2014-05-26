@@ -43,10 +43,10 @@ if(numpar == 1)
 fv = fv[tmp]
 
 ## Iterate until stopping criterion is reached
-reltolx = as.numeric(pars2[6])
-reltolf = as.numeric(pars2[7])
-abstolx = as.numeric(pars2[8])
-maxiter = as.numeric(pars2[9])
+reltolx = as.numeric(pars2[8])
+reltolf = as.numeric(pars2[9])
+abstolx = as.numeric(pars2[10])
+maxiter = as.numeric(pars2[11])
 rh = 1
 ch = 2
 ps = 0.5

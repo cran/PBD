@@ -5,16 +5,25 @@
 \title{ Protracted birth-death model of diversification }
 \description{ This package computes the (maximum) likelihood of the protracted speciation model for a given set of branching times
 This package is a likelihood-based statistical package to estimate parameters
-under diversity-dependent diversification models.\cr \cr
+under the protracted speciation model.\cr \cr
+   First version: 0.8\cr
    New in version 0.9\cr
-   - Bug fix for phylogeny with stem age\cr
+   - Bug fix for stem age\cr
+   New in version 0.91\cr
+   - Reports loglik = -Inf on an error in the deSolve package (function ode)\cr
+   New in version 0.92\cr
+   - Correcting order of parameters of pbd_sim\cr
+   New in version 0.93\cr
+   - pbd_sim produces a tree, a matrix containing all events in the simulation, and a tree with one sample per species.\cr
+   New in version 1.0\cr
+   - Conditioning is also possible on a range of values of the number of species.\cr
 }
 \details{
 \tabular{ll}{
 Package: \tab PBD\cr
 Type: \tab Package\cr
-Version: \tab 0.9\cr
-Date: \tab 2014-4-4\cr
+Version: \tab 1.0\cr
+Date: \tab 2014-5-20\cr
 License: \tab GPL-2\cr
 }
 pbd_loglik computes the likelihood of the protracted birth-death model of

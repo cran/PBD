@@ -1,4 +1,4 @@
-pbd_loglik = function(pars1,pars1f = c(function(t,pars) {pars[1]},function(t,pars) {pars[2]},function(t,pars) {pars[3]},function(t,pars) {pars[4]}), pars2 = c(1,1,2,1,"lsoda"),brts,missnumspec = 0)
+pbd_loglik = function(pars1,pars1f = c(function(t,pars) {pars[1]},function(t,pars) {pars[2]},function(t,pars) {pars[3]},function(t,pars) {pars[4]}), pars2 = c(1,1,2,1, "lsoda",0,0),brts,missnumspec = 0)
 {
 # pbd_loglik computes the loglikelihood of the protracted speciation model given a set of branching times and data
 
@@ -36,11 +36,48 @@ m = missnumspec
 
 probs = c(1,1,0,0)
 y = ode(probs,c(0,brts),pbd_loglik_rhs,c(pars1),rtol = reltol,atol = abstol,method = methode)
+if(dim(y)[1] < length(brts) + 1) { return(-Inf) }
 #loglik = (btorph == 0) * lgamma(S) + sum(log(b) + log(y[2:S,2]) + log(1 - y[2:S,3])) - log(b[1]) + (soc == 2) * (log(y[S,2]) + log(1 - y[S,3])) - soc * (cond > 0) * (log(1 - y[S,3])) - (cond == 2) * ((soc == 2) * log(S + m - 1) + soc * log(y[S,2]) + (S + m - soc) * log(1 - y[S,2]))
 
-loglik = (btorph == 0) * lgamma(S) + sum(log(b) + log(y[2:(length(brts) + 1),2]) + log(1 - y[2:(length(brts) + 1),3])) - log(b[length(b)]) + (soc == 2) * (log(y[(length(brts) + 1),2]) + log(1 - y[(length(brts) + 1),3])) - soc * (cond > 0) * (log(1 - y[(length(brts) + 1),3])) - (cond == 2) * ((soc == 2) * log(S + m - 1) + soc * log(y[(length(brts) + 1),2]) + (S + m - soc) * log(1 - y[(length(brts) + 1),2]))
 #loglik = (btorph == 0) * lgamma(S) + sum(log(b) + log(y[2:(length(brts) + 1),2]) + log(1 - y[2:(length(brts) + 1),3])) - log(b[length(b)]) + (soc == 2) * (log(y[length(brts) + 1,2]) + log(1 - y[length(brts) + 1,3])) + (cond > 0) * soc * (-log(y[length(brts) + 1,2]) - log(1 - y[length(brts) + 1,3]) + log(y[(length(brts) + 1),2])) - (cond == 2) * ((soc == 2) * log(S + m - 1) + soc * log(y[(length(brts) + 1),2]) + (S + m - soc) * log(1 - y[(length(brts) + 1),2]))
 
+#loglik = (btorph == 0) * lgamma(S) + sum(log(b) + log(y[2:(length(brts) + 1),2]) + log(1 - y[2:(length(brts) + 1),3])) - log(b[length(b)]) + (soc == 2) * (log(y[(length(brts) + 1),2]) + log(1 - y[(length(brts) + 1),3])) - soc * (cond > 0) * (log(1 - y[(length(brts) + 1),3])) - (cond == 2) * ((soc == 2) * log(S + m - 1) + soc * log(y[(length(brts) + 1),2]) + (S + m - soc) * log(1 - y[(length(brts) + 1),2]))
+#loglik = (btorph == 0) * lgamma(S) + (cond == 0) * soc * (log(y[length(brts) + 1,2]) + log(1 - y[length(brts) + 1,3])) + (cond > 0) * soc * log(y[(length(brts) + 1),2]) + sum(log(b) + log(y[2:length(brts),2]) + log(1 - y[2:length(brts),3])) - (cond == 2) * ((soc - 1) * log(S + m - 1) + soc * log(y[(length(brts) + 1),2]) + (S + m - soc) * log(1 - y[(length(brts) + 1),2]))
+loglik = (btorph == 0) * lgamma(S) + 
+         (cond == 0) * soc * (log(y[length(brts) + 1,2]) + log(1 - y[length(brts) + 1,3])) + 
+         (cond > 0) * soc * log(y[(length(brts) + 1),2]) +
+         sum(log(b) + log(y[2:length(brts),2]) + log(1 - y[2:length(brts),3]))
+if(cond == 2)
+{
+     n_l = as.numeric(pars2[6])
+     n_u = as.numeric(pars2[7])
+     if(n_l == 0 & n_u == 0)
+     {
+         n_l = S + m
+         n_u = S + m
+     }     
+     if(as.numeric(pars2[7]) == Inf)
+     {
+         n_u = n_l - 1
+         n_l = soc
+     }
+     if(n_u < n_l)
+     {
+         logcond = 1
+     } else {
+         one = 1
+         if(n_l == 1 & n_u == 1)
+         {
+             one = 0
+         }
+         logcond = ((soc - 1) * log((n_l:n_u) - one) + soc * log(y[(length(brts) + 1),2]) + ((n_l:n_u) - soc) * log(1 - y[(length(brts) + 1),2]))
+     }
+     if(as.numeric(pars2[7]) == Inf)
+     {
+         logcond = 1 - logcond
+     }
+     loglik = loglik - logcond
+}
 if(m > 0)
 {
    if(soc == 1)
