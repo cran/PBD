@@ -82,6 +82,7 @@ s2 = sprintf('Maximum loglikelihood: %f',ML)
 s3 = sprintf('The expected duration of speciation for these parameters is: %f',pbd_durspec_mean(c(MLpars1[1],MLpars1[3],MLpars1[4])))
 s4 = sprintf('The median duration of speciation for these parameters is: %f',pbd_durspec_quantile(c(MLpars1[1],MLpars1[3],MLpars1[4]),0.5))
 cat("\n",s1,"\n",s2,"\n",s3,"\n",s4,"\n")
+flush.console()
 }
 }
 }

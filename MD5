@@ -1,7 +1,6 @@
-5cce3079ee8a2dc08e9d70a11cf9f510 *DESCRIPTION
-6f3e7c46ab91be2e853f6dc700beeafb *NAMESPACE
-4d4b383d277d5e5b21eb1ae03048783e *R/brts2phylo.R
-9f4a7555f3f68b36c82222813edb366f *R/pbd_ML.R
+5ab79b4c4dee76fd45b92501885fed73 *DESCRIPTION
+8f115acf31f37603db6f2d1d15134aa3 *NAMESPACE
+7d3bb5bcaeac313f0b833b5c7ae3cbb2 *R/pbd_ML.R
 cdc45464fa022e859702ba7f6ce8e122 *R/pbd_bootstrap.R
 246b60a9f407f8add96543c8a2fed1c2 *R/pbd_bootstrap_sim.R
 941a3de688be8574506f859d1d24c9de *R/pbd_brts_density.R
@@ -17,11 +16,12 @@ ad66c05716db5e734e3f6de4a9b67e19 *R/pbd_incipient.R
 484f369760880666d9d75414c6ecda8b *R/pbd_loglik.R
 db4347b14c658ff4c41307397894077c *R/pbd_loglik_choosepar.R
 8ac46fa23c8879246ad275c0b9b9952b *R/pbd_loglik_rhs.R
-867b5f95d1ebb879f6f82e4538d5cb41 *R/pbd_sim.R
+f1085c42ad103ad448b49b428a80a25a *R/pbd_sim.R
 3d5f5fa0fb1761f1a7eac88bceb2db83 *R/pbd_sim_cpp.R
 985e240ec8bf73d62f0ed2245a006d83 *R/pbd_simplex.R
-700e9e48bd78c6adccb4bfc37461dfda *man/PBD-internal.Rd
-79a58e185583e264d983b8efd6bc0a6f *man/PBD-package.Rd
+52f1d2a43cd7f4510c77c546314464c2 *R/pbd_utils.R
+adea3dc75a59db5fb08f8ee22e3914b2 *man/PBD-internal.Rd
+b297daacc0ddd38313329b690ead222c *man/PBD-package.Rd
 07800e692e3392f8c131703a64f3ae91 *man/pbd_ML.Rd
 140911dda3db5188e4052bf9bfb8cf97 *man/pbd_bootstrap.Rd
 c8f29a9ff65839cd52feccead9e30036 *man/pbd_brts_density.Rd
@@ -33,5 +33,5 @@ d2b08a314dad51a73aa2188b00659380 *man/pbd_durspec_mean.Rd
 fc9b3aae4c3280869887b826f6f0e243 *man/pbd_durspec_quantile.Rd
 f7fd96b1ea528f39d0ebbfc738e460b9 *man/pbd_durspec_var.Rd
 bfebe74b528341cb80d9f3d46b5e8b26 *man/pbd_loglik.Rd
-a9cc1c0f2ba9e76d7f96375b6b0d55d2 *man/pbd_sim.Rd
+15c085822b988a103d5f6cb9c973f4bc *man/pbd_sim.Rd
 4eaa5cbc1be624d2f95995a28fc5abae *man/pbd_sim_cpp.Rd

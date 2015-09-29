@@ -1,8 +1,14 @@
 \name{PBD-internal}
+\alias{roundn}
+\alias{sample2}
+\alias{sampletree}
+\alias{checkgood}
+\alias{detphy}
+\alias{L2phylo2}
+\alias{pbd_reconstruct}
 \alias{pbd_loglik_choosepar}
 \alias{pbd_loglik_rhs}
 \alias{pbd_simplex}
-\alias{brts2phylo}
 \alias{pbd_bootstrap_sim}
 \alias{pbd_incipient_rhs}
 \alias{pbd_incipient}

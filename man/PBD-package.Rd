@@ -17,13 +17,15 @@ under the protracted speciation model.\cr \cr
    - pbd_sim produces a tree, a matrix containing all events in the simulation, and a tree with one sample per species.\cr
    New in version 1.0\cr
    - Conditioning is also possible on a range of values of the number of species.\cr
+   New in version 1.1\cr
+   - Simulation of the protracted speciation tree has more features. \cr
 }
 \details{
 \tabular{ll}{
 Package: \tab PBD\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2014-5-20\cr
+Version: \tab 1.1\cr
+Date: \tab 2015-9-16\cr
 License: \tab GPL-2\cr
 }
 pbd_loglik computes the likelihood of the protracted birth-death model of
@@ -37,8 +39,8 @@ Maintainer: Rampal S. Etienne <r.s.etienne@rug.nl>
 }
 \references{
 - Etienne, R.S. & J. Rosindell 2012. Systematic Biology 61: 204-213.\cr
-- Lambert, A., H. Morlon & R.S. Etienne 2014. Journal of Mathmematical Biology. In press\cr
-- Etienne, R.S., H. Morlon & A. Lambert 2014. Evolution. In press.
+- Lambert, A., H. Morlon & R.S. Etienne 2014. Journal of Mathmematical Biology 70: 367-397. doi:10.1007/s00285-014-0767-x\cr
+- Etienne, R.S., H. Morlon & A. Lambert 2014. Evolution 68: 2430-2440 doi:10.1111/evo.12433\cr.
 }
 \keyword{ package }
 \seealso{ \code{DDD} }

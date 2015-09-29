@@ -4,11 +4,14 @@
 \description{ Simulating the protracted speciation process using the Doob-Gillespie algorithm.
 This function differs from pbd_sim_cpp that 1) it does not require that the speciation-initiation
 rate is the same for good and incipient species, and 2) that it simulates the exact protracted
-speciation process, and not the approximation made by the coalescent point process. }
+speciation process, and not the approximation made by the coalescent point process. This function
+provides also the conversion to the approximation as output.
+ }
 \usage{ pbd_sim(
    pars,
    age,
-   soc = 2
+   soc = 2,
+   plotit = FALSE
 ) }
 \arguments{
   \item{pars}{Vector of parameters: \cr \cr
@@ -20,12 +23,13 @@ speciation process, and not the approximation made by the coalescent point proce
   }
   \item{age}{ Sets the age for the simulation }
   \item{soc}{ Sets whether this age is the stem (1) or crown (2) age }
+  \item{plotit}{ Sets whether the various trees produced by the function should be plotted or not}
 }
 \value{
-  \item{ out }{ A list with the following three elements:
-   The first element is the tree of extant species in phylo format \cr
-   The second element is a tree with one sample per species in phylo format \cr
-   The third element is a matrix of all events in the simulation where \cr
+  \item{out}{ A list with the following elements: \cr \cr
+   \code{tree} is the tree of extant species in phylo format \cr
+   \code{stree} is a tree with one sample per species in phylo format \cr
+   \code{L} is a matrix of all events in the simulation where \cr
    - the first column is the incipient-level label of a species \cr
    - the second column is the incipient-level label of the parent of the species \cr
    - the third column is the time at which a species is born as incipient species\cr
@@ -34,6 +38,12 @@ speciation process, and not the approximation made by the coalescent point proce
    - the fifth column is the time of extinction of the species \cr
    If the fifth element equals -1, then the species is still extant.
    - The sixth column is the species-level label of the species \cr
+   \code{sL} is a matrix like L but for \code{stree} \cr
+   \code{igtree.extinct} is the tree in simmap format with incipient and good flags and including extinct species \cr
+   \code{igtree.extant} is the tree in simmap format with incipient and good flags without extinct species \cr   
+   \code{recontree} is the reconstructed tree in phylo format, reconstructed using the approximation in Lambert et al. 2014 \cr      
+   \code{reconL} is the matrix corresponding to \code{recontree} \cr
+   \code{L0} is a matrix where the crown age is at 0; for internal use only \cr   
   }
 }
 \author{ Rampal S. Etienne }
