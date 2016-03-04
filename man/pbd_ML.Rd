@@ -19,8 +19,9 @@ function(t,pars) {pars[3]}, function(t,pars) {pars[4]}),
    methode = "lsoda",
    n_low = 0,
    n_up = 0,
-   tol = c(1E-4, 1E-4, 1E-6),
-   maxiter = 1000 * round((1.25)^length(idparsopt))
+   tol = c(1E-6, 1E-6, 1E-6),
+   maxiter = 1000 * round((1.25)^length(idparsopt)),
+   optimmethod = 'subplex'
 )}
 \arguments{
   \item{brts}{A set of branching times of a phylogeny, all positive }
@@ -61,6 +62,7 @@ See package deSolve for details.}
    abstolx = absolute tolerance of parameter values in optimization
 }
   \item{maxiter}{Sets the maximum number of iterations in the optimization}
+  \item{optimmethod}{ Method used in optimization of the likelihood. Current default is 'subplex'. Alternative is 'simplex' (default of previous versions)}  
 }
 \value{
 \item{b}{ gives the maximum likelihood estimate of b}
